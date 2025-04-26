@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\OrtuController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\TahunAjaranController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -40,3 +41,9 @@ Route::get('/admin/kelola-data-siswa', [SiswaController::class, 'index'])->name(
 Route::post('/admin/store-data-siswa', [SiswaController::class, 'store'])->name('admin.store-siswa');
 Route::post('/admin/update-data-siswa', [SiswaController::class, 'update'])->name('admin.update-siswa');
 Route::delete('/admin/delete-data-siswa', [SiswaController::class, 'delete'])->name('admin.delete-siswa');
+Route::get('/admin/get-foto-siswa/{id}', [SiswaController::class, 'get_foto'])->name('admin.get-foto-siswa');
+
+Route::get('admin/kelola-tahun-ajaran', [TahunAjaranController::class, 'index'])->name('admin.kelola-tahun-ajaran');
+Route::post('admin/store-tahun-ajaran', [TahunAjaranController::class, 'store'])->name('admin.store-tahun-ajaran');
+Route::post('admin/update-tahun-ajaran', [TahunAjaranController::class, 'update'])->name('admin.update-tahun-ajaran');
+Route::delete('admin/delete-tahun-ajaran', [TahunAjaranController::class, 'delete'])->name('admin.delete-tahun-ajaran');

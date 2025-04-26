@@ -26,15 +26,15 @@ export default function MenuAdmin() {
             />
 
             <MenuLink
-                href={route("admin.kelola-admin")}
-                active={route().current("admin.kelola-admin")}
-                title={"Siswa"}
+                href={route("admin.kelola-siswa")}
+                active={route().current("admin.kelola-siswa")}
+                title={"Kelola Siswa"}
                 logo={<Face color="inherit" fontSize="inherit" />}
             />
             <MenuLink
                 href={route("admin.kelola-tahun-ajaran")}
                 active={route().current("admin.kelola-tahun-ajaran")}
-                title={"Kelola Tahun Ajaran"}
+                title={"Kelola Jadwal Mengajar"}
                 logo={<Face color="inherit" fontSize="inherit" />}
             />
         </>

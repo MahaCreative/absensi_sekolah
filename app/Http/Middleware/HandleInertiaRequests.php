@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -35,7 +36,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn () => [
+            'kelas' => Kelas::get(),
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
