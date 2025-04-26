@@ -82,4 +82,23 @@ class SiswaController extends Controller
         $foto = FotoSiswa::where('siswa_id', $id)->get();
         return response()->json($foto);
     }
+
+    public function store_foto(Request $request, $id)
+    {
+        $request->validate([
+            "foto.*" => 'required|image|mimes:jpeg,jpg,png,webp',
+        ]);
+        foreach ($request->file('foto') as $foto) {
+            $fotoSiswa = FotoSiswa::create([
+                'siswa_id' => $id,
+                'foto' => $foto->store('profile/siswa'),
+            ]);
+        }
+    }
+
+    public function delete_foto(Request $request, $id)
+    {
+        $fotoSiswa = FotoSiswa::find($id);
+        $fotoSiswa->delete();
+    }
 }

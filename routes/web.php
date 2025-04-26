@@ -42,6 +42,8 @@ Route::post('/admin/store-data-siswa', [SiswaController::class, 'store'])->name(
 Route::post('/admin/update-data-siswa', [SiswaController::class, 'update'])->name('admin.update-siswa');
 Route::delete('/admin/delete-data-siswa', [SiswaController::class, 'delete'])->name('admin.delete-siswa');
 Route::get('/admin/get-foto-siswa/{id}', [SiswaController::class, 'get_foto'])->name('admin.get-foto-siswa');
+Route::post('/admin/store-foto-siswa/{id}', [SiswaController::class, 'store_foto'])->name('admin.store-foto-siswa');
+Route::delete('/admin/delete-foto-siswa/{id}', [SiswaController::class, 'delete_foto'])->name('admin.delete-foto-siswa');
 
 Route::get('admin/kelola-tahun-ajaran', [TahunAjaranController::class, 'index'])->name('admin.kelola-tahun-ajaran');
 Route::post('admin/store-tahun-ajaran', [TahunAjaranController::class, 'store'])->name('admin.store-tahun-ajaran');
