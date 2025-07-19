@@ -42,45 +42,45 @@ class DatabaseSeeder extends Seeder
         Guru::factory(10)->hasUser()->create();
 
         $this->call([
-            KelasSeeder::class,
+            // KelasSeeder::class,
             SemesterSeeder::class,
             TahunAjaranSeeder::class,
         ]);
         Mapel::factory()->count(10)->create();
-        $kelasList = Kelas::all();
+        // $kelasList = Kelas::all();
 
-        foreach ($kelasList as $kelas) {
-            // 1. Buat 30 jadwal per kelas
-            $jadwalList = JadwalMengajar::factory()->count(5)->create([
-                'kelas_id' => $kelas->id,
-            ]);
+        // foreach ($kelasList as $kelas) {
+        //     // 1. Buat 30 jadwal per kelas
+        //     $jadwalList = JadwalMengajar::factory()->count(5)->create([
+        //         'kelas_id' => $kelas->id,
+        //     ]);
 
-            // 2. Buat siswa dalam kelas (27–32)
-            $siswaList = Siswa::factory()->count(rand(2, 5))->create([
-                'kelas_id' => $kelas->id,
-            ]);
+        //     // 2. Buat siswa dalam kelas (27–32)
+        //     $siswaList = Siswa::factory()->count(rand(2, 5))->create([
+        //         'kelas_id' => $kelas->id,
+        //     ]);
 
-            // 3. Untuk setiap jadwal dan setiap pertemuan
-            foreach ($jadwalList as $jadwal) {
-                for ($pertemuan = 1; $pertemuan <= 30; $pertemuan++) {
-                    foreach ($siswaList as $siswa) {
-                        Absen::create([
-                            'siswa_id' => $siswa->id,
-                            'jadwal_mengajar_id' => $jadwal->id,
-                            'guru_id' => $jadwal->guru_id,
-                            'kelas' => $kelas->nama_kelas,
-                            'gambar' => '/path/to/image.jpg', // sesuaikan jika ada gambar dinamis
-                            'jam_absen' => now()->setTime(rand(7, 9), rand(0, 59)),
-                            'tanggal_absen' => now()->subDays(30 - $pertemuan), // tanggal mundur
-                            'status_terlambat' => fake()->randomElement(['ontime', 'terlambat']),
-                            'status_kehadiran' => fake()->randomElement(['hadir', 'izin', 'sakit', 'alpha']),
-                            'lat' => fake()->latitude(),
-                            'long' => fake()->longitude(),
-                            'pertemuan_ke' => $pertemuan,
-                        ]);
-                    }
-                }
-            }
-        }
+        //     // 3. Untuk setiap jadwal dan setiap pertemuan
+        //     foreach ($jadwalList as $jadwal) {
+        //         for ($pertemuan = 1; $pertemuan <= 30; $pertemuan++) {
+        //             foreach ($siswaList as $siswa) {
+        //                 Absen::create([
+        //                     'siswa_id' => $siswa->id,
+        //                     'jadwal_mengajar_id' => $jadwal->id,
+        //                     'guru_id' => $jadwal->guru_id,
+        //                     'kelas' => $kelas->nama_kelas,
+        //                     'gambar' => '/path/to/image.jpg', // sesuaikan jika ada gambar dinamis
+        //                     'jam_absen' => now()->setTime(rand(7, 9), rand(0, 59)),
+        //                     'tanggal_absen' => now()->subDays(30 - $pertemuan), // tanggal mundur
+        //                     'status_terlambat' => fake()->randomElement(['ontime', 'terlambat']),
+        //                     'status_kehadiran' => fake()->randomElement(['hadir', 'izin', 'sakit', 'alpha']),
+        //                     'lat' => fake()->latitude(),
+        //                     'long' => fake()->longitude(),
+        //                     'pertemuan_ke' => $pertemuan,
+        //                 ]);
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
