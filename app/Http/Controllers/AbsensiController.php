@@ -18,7 +18,7 @@ class AbsensiController extends Controller
         if ($cekAbsen) {
             return response()->json(['type' => 'error', 'message' => 'anda telah melakukan absen sebelumnya'], 422);
         }
-        $screnshoot = $request->screenshot;
+        $screnshoot = $request->screenshot->store('absensi');
         $absensi = Absen::create([
             "siswa_id" => $cekSIswa->id,
             "jadwal_mengajar_id" => $jadwal->id,

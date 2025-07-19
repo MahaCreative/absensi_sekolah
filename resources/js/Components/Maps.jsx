@@ -28,8 +28,12 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
     return distance;
 };
 
-export default function Peta({ onOutsideRadius, setLocationSiswa }) {
-    const [userLocation, setUserLocation] = useState(null);
+export default function Peta({
+    onOutsideRadius,
+    setLocationSiswa,
+    locationSiswa,
+    lokasiSekolah,
+}) {
     const [isOutsideRadius, setIsOutsideRadius] = useState(false);
 
     useEffect(() => {
@@ -39,15 +43,11 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
                 (position) => {
                     const userLat = position.coords.latitude;
                     const userLng = position.coords.longitude;
-                    setUserLocation({ lat: userLat, lng: userLng });
-                    setLocationSiswa({ lat: userLat, lng: userLng });
 
-                    // Lokasi sekolah
-                    // const schoolLat = -2.708641733413396;
-                    // const schoolLng = 118.84436823989057;
-                    // lokasi pengguna
-                    const schoolLat = -2.6853352;
-                    const schoolLng = 118.8969052;
+                    setLocationSiswa({ lat: userLat, long: userLng });
+
+                    const schoolLat = lokasiSekolah.lat;
+                    const schoolLng = lokasiSekolah.long;
 
                     // Menghitung jarak antara lokasi pengguna dan sekolah
                     const distance = getDistance(
@@ -73,7 +73,7 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
         } else {
             alert("Geolocation tidak didukung di browser ini");
         }
-    }, [onOutsideRadius]);
+    }, [onOutsideRadius, lokasiSekolah]);
 
     // Ganti ikon dengan gambar siswa
     const studentIcon = new L.Icon({
@@ -84,11 +84,10 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
     });
 
     // const position = [-2.708641733413396, 118.84436823989057];
-    const position = [-2.6853352, 118.8969052];
 
     return (
         <MapContainer
-            center={position}
+            center={[lokasiSekolah.lat, lokasiSekolah.long]}
             zoom={13}
             style={{ height: "500px", width: "100%" }}
         >
@@ -98,7 +97,7 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
             />
 
             {/* Marker dengan ikon sekolah */}
-            <Marker position={position}>
+            <Marker position={[lokasiSekolah.lat, lokasiSekolah.long]}>
                 <Popup>
                     <p>SD Negeri Simbuang 2</p>
                 </Popup>
@@ -106,7 +105,7 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
 
             {/* Lingkaran dengan radius 100 meter */}
             <Circle
-                center={position}
+                center={[lokasiSekolah.lat, lokasiSekolah.long]}
                 radius={100}
                 color="blue"
                 fillColor="blue"
@@ -114,16 +113,17 @@ export default function Peta({ onOutsideRadius, setLocationSiswa }) {
             />
 
             {/* Marker lokasi pengguna jika tersedia */}
-            {userLocation && (
-                <Marker
-                    position={[userLocation.lat, userLocation.lng]}
-                    icon={studentIcon}
-                >
-                    <Popup>
-                        <p>Lokasi Pengguna</p>
-                    </Popup>
-                </Marker>
-            )}
+            {locationSiswa.lang ||
+                (locationSiswa.long && (
+                    <Marker
+                        position={[locationSiswa.lat, locationSiswa.long]}
+                        icon={studentIcon}
+                    >
+                        <Popup>
+                            <p>Lokasi Pengguna</p>
+                        </Popup>
+                    </Marker>
+                ))}
         </MapContainer>
     );
 }

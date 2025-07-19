@@ -105,8 +105,8 @@ Route::get('get-data-mapel', function (Request $request) {
         ->where('semester_id', '=', $semester->id)
         ->where('tahun_ajaran_id', '=', $tahunAjaran->id)
         ->where('kelas_id', $cekSiswa->kelas_id)
-        // ->whereTime('jam_masuk', '>=', $waktuSekarang->format('H:i:s'))
-        // ->whereTime('jam_selesai', '<=', $waktuSekarang->format('H:i:s'))
+        ->whereTime('jam_masuk', '<=', $waktuSekarang->format('H:i:s'))
+        ->whereTime('jam_selesai', '>=', $waktuSekarang->format('H:i:s'))
 
         ->first();
     // dd($cekJadwal);

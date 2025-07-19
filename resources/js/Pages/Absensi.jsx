@@ -12,8 +12,13 @@ import "moment/locale/id"; // Tambahkan locale Indonesia jika ingin pakai bahasa
 import { Link, router } from "@inertiajs/react";
 
 export default function Absensi() {
+    const [trialLokasi, setTrialLokasi] = useState(false);
+    const [lokasiSekolah, setLokasiSekolah] = useState({
+        lat: -2.708641733413396,
+        long: 118.84436823989057,
+    });
     const [onOutsideRadius, setonOutsideRadius] = useState(false);
-    const [locationSiswa, setLocationSiswa] = useState();
+    const [locationSiswa, setLocationSiswa] = useState({ lat: "", long: "" });
     const showAlert = useSweetAlertNotification();
     const showAlertFunction = useSweetAlertFunction();
     const webcamRef = useRef(null);
@@ -325,6 +330,70 @@ export default function Absensi() {
         //     );
         // }
     };
+
+    const useLokasi = () => {
+        showAlertFunction(
+            "Ganti Lokasi",
+            "warning",
+            "Fungsi ini hanya untuk keperluan trial. lokasi sekolah akan diganti menjadi lokasi anda saat ini. apakah anda ingin menggantinya?",
+            "ya",
+            () => {
+                if (trialLokasi == false) {
+                    setTrialLokasi(true);
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                setLokasiSekolah({
+                                    lat: position.coords.latitude,
+                                    long: position.coords.longitude,
+                                });
+                            },
+                            (error) => {
+                                console.error("Gagal dapat lokasi:", error);
+                                // fallback default lokasi
+                                setLokasiSekolah({
+                                    lat: -2.708641733413396,
+                                    long: 118.84436823989057,
+                                });
+                            }
+                        );
+                    } else {
+                        alert("Browser tidak mendukung geolocation");
+                    }
+                } else {
+                    setTrialLokasi(false);
+                    setLokasiSekolah({
+                        lat: -2.708641733413396,
+                        long: 118.84436823989057,
+                    });
+                }
+            }
+        );
+    };
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLocationSiswa({
+                        lat: position.coords.latitude,
+                        long: position.coords.longitude,
+                    });
+                },
+                (error) => {
+                    console.error("Gagal dapat lokasi:", error);
+                    // fallback default lokasi
+                    setLocationSiswa({
+                        lat: -2.708641733413396,
+                        long: 118.84436823989057,
+                    });
+                }
+            );
+        } else {
+            alert("Browser tidak mendukung geolocation");
+        }
+    }, []);
+
     return (
         <div>
             <div className="w-full h-[1100px] lg:h-[685px] flex gap-x-3 items-start bg-red-500 bg-[url('/storage/Image/bg.jpg')] bg-right-bottom bg-cover md:bg-cover overflow-y-auto overflow-x-hidden">
@@ -494,12 +563,26 @@ export default function Absensi() {
                                         </div>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() => checkSiswa()}
-                                    className="bg-blue-500 text-white py-2 px-4 rounded-md drop-shadow-md"
-                                >
-                                    Check Siswa
-                                </button>
+                                <div className="flex gap-x-2">
+                                    <button
+                                        onClick={() => checkSiswa()}
+                                        className="bg-blue-500 text-white py-2 px-4 rounded-md drop-shadow-md"
+                                    >
+                                        Check Siswa
+                                    </button>
+                                    <button
+                                        onClick={() => useLokasi()}
+                                        className={`${
+                                            trialLokasi
+                                                ? "bg-blue-500"
+                                                : "bg-green-500"
+                                        } bg-blue-500 text-white py-2 px-4 rounded-md drop-shadow-md`}
+                                    >
+                                        {trialLokasi
+                                            ? "Reset Lokasi Sekolah"
+                                            : "Gunakan Lokasi Trial"}
+                                    </button>
+                                </div>
                                 {statusKenal && (
                                     <button
                                         onClick={() => kirimAbsensi()}
@@ -515,6 +598,8 @@ export default function Absensi() {
                         <Maps
                             onOutsideRadius={setonOutsideRadius}
                             setLocationSiswa={setLocationSiswa}
+                            lokasiSekolah={lokasiSekolah}
+                            locationSiswa={locationSiswa}
                         />
                     </div>
                 </div>
