@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nis')->unique();
             $table->string('nama_lengkap');
             $table->string('alamat');
-            $table->string('telephone');
+            $table->string('telephone')->nullable();
             $table->date('tanggal_lahir');
             $table->string('jenis_kelamin');
             $table->string('image');

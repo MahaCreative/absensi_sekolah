@@ -15,16 +15,12 @@ class TahunAjaranSeeder extends Seeder
     {
         DB::table('tahun_ajarans')->insert([
             [
-                'semester_id' => '1',
-                'kode_ajar' => 'ta-001',
                 'tahun_ajaran' => '2024',
-                'status' => 'non aktif',
+                'status' => 'nonaktif',
             ],
             [
-                'semester_id' => '2',
-                'kode_ajar' => 'ta-002',
-                'tahun_ajaran' => '2024',
-                'status' => 'non aktif',
+                'tahun_ajaran' => '2025',
+                'status' => 'aktif',
             ],
 
         ]);

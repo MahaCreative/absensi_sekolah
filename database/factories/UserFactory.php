@@ -26,9 +26,9 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'nis' => fake()->numerify('123###'),
+            'nis' => fake()->unique()->numerify('123###'),
             'password' => bcrypt('password'),
-            'role' => 'siswa',
+            'role' => 'guru',
         ];
     }
 

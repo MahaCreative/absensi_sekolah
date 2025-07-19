@@ -1,11 +1,13 @@
 import CostumInput from "@/Components/CostumInput";
 import CostumOption from "@/Components/CostumOption";
 import CostumTextArea from "@/Components/CostumTextArea";
+import useSweetAlertNotification from "@/Hook/useSweetAlertNotification";
 import { useForm } from "@inertiajs/react";
 import { Cancel, Save } from "@mui/icons-material";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Form({ model, onClose }) {
+    const showAlert = useSweetAlertNotification();
     const { data, setData, post, reset, errors } = useForm({
         name: "",
         nis: "",
@@ -28,11 +30,41 @@ export default function Form({ model, onClose }) {
     };
     const submitHandler = (e) => {
         e.preventDefault();
-        post(route("admin.store-admin"));
+        post(route("admin.store-admin"), {
+            onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil menyimpan 1 admin kedalam database"
+                );
+            },
+            onError: () => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal menyimpan 1 guru kedalam database"
+                );
+            },
+        });
     };
     const updateHandler = (e) => {
         e.preventDefault();
-        post(route("admin.update-admin"));
+        post(route("admin.update-admin"), {
+            onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil memperbaharui 1 admin kedalam database"
+                );
+            },
+            onError: () => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal menyimpan 1 guru kedalam database"
+                );
+            },
+        });
     };
     useEffect(() => {
         setData({

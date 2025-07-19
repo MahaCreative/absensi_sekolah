@@ -4,12 +4,14 @@ import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import "moment/locale/id";
 import { debounce, pickBy } from "lodash";
-import { router } from "@inertiajs/react";
-import { Add } from "@mui/icons-material";
+import { Link, router } from "@inertiajs/react";
+import { Add, Face, Face2, Group, Print } from "@mui/icons-material";
 import Modals from "@/Components/CostumModal";
 import Form from "./Form";
+import useSweetAlertNotification from "@/Hook/useSweetAlertNotification";
 moment.locale("id");
 export default function Index(props) {
+    const showAlert = useSweetAlertNotification();
     const { data: guru } = props.guru;
     const [params, setParams] = useState({ page: "", q: "", search: "" });
     const [modalForm, setModalForm] = useState(false);
@@ -32,7 +34,15 @@ export default function Index(props) {
         setModalForm(true);
     };
     const deleteHandler = (id) => {
-        router.delete(route("admin.delete-guru", { id: id }));
+        router.delete(route("admin.delete-guru", { id: id }), {
+            onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil menghapus 1data guru pada database"
+                );
+            },
+        });
     };
     useEffect(() => {
         reload(params);
@@ -46,16 +56,75 @@ export default function Index(props) {
             >
                 <Form model={model} onClose={onClose} />
             </Modals>
-            <div className="overflow-x-auto w-full">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="py-5 px-4 bg-gradient-to-br from-blue-600 to-blue-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Face color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {
+                                guru.filter(
+                                    (item) => item.jenis_kelamin === "laki-laki"
+                                ).length
+                            }
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Guru Laki-laki
+                        </p>
+                    </div>
+                </div>
+                <div className="py-5 px-4 bg-gradient-to-br from-pink-600 to-pink-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Face2 color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {
+                                guru.filter(
+                                    (item) => item.jenis_kelamin === "perempuan"
+                                ).length
+                            }
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Guru Perempuan
+                        </p>
+                    </div>
+                </div>
+                <div className=" col-span-2 md:col-span-1 py-5 px-4 bg-gradient-to-br from-green-600 to-green-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Group color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {guru.length}
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Total Guru
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="my-3 py-2 px-4 bg-white rounded-md drop-shadow-md overflow-x-auto w-full">
                 <div className="flex justify-between items-center py-3 px-3 w-full">
-                    <button
-                        onClick={() => setModalForm(true)}
-                        className="capitalize flex gap-x-3 py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white"
-                    >
-                        <Add />
-                        <p>Tambah guru</p>
-                    </button>
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-x-3 items-center mx-2">
+                        <button
+                            onClick={() => setModalForm(true)}
+                            className="capitalize text-xs md:text-base leading-3 items-center flex gap-x-3 py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white"
+                        >
+                            <Add />
+                            <p>Tambah guru</p>
+                        </button>
+                        <Link
+                            as="button"
+                            href={route("admin.report-guru")}
+                            className="capitalize text-xs md:text-base leading-3 items-center  flex gap-x-3 py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 text-white"
+                        >
+                            <Print />
+                            <p>Laporan Guru</p>
+                        </Link>
+                    </div>
+                    <div className="flex gap-3 items-center mx-2">
                         <input
                             onChange={(e) =>
                                 setParams({

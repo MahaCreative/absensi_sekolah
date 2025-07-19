@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "moment/locale/id";
 import { debounce, pickBy } from "lodash";
 import { router } from "@inertiajs/react";
-import { Add } from "@mui/icons-material";
+import { Add, Face, Face2, Group } from "@mui/icons-material";
 import Modals from "@/Components/CostumModal";
 import Form from "./Form";
 moment.locale("id");
@@ -37,7 +37,7 @@ export default function Index(props) {
         reload(params);
     }, [params]);
     return (
-        <div className="p-9">
+        <div className="p-9 w-full">
             <Modals
                 title={model ? "Edit Data" : "Tambah Data"}
                 open={modalForm}
@@ -45,16 +45,65 @@ export default function Index(props) {
             >
                 <Form model={model} onClose={onClose} />
             </Modals>
-            <div className="overflow-x-auto w-full">
-                <div className="flex justify-between items-center py-3 px-3 w-full">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                <div className="py-5 px-4 bg-gradient-to-br from-blue-600 to-blue-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Face color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {
+                                admin.filter(
+                                    (item) => item.jenis_kelamin === "laki-laki"
+                                ).length
+                            }
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Admin Laki-laki
+                        </p>
+                    </div>
+                </div>
+                <div className="py-5 px-4 bg-gradient-to-br from-pink-600 to-pink-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Face2 color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {
+                                admin.filter(
+                                    (item) => item.jenis_kelamin === "perempuan"
+                                ).length
+                            }
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Admin Perempuan
+                        </p>
+                    </div>
+                </div>
+                <div className="col-span-2 md:col-span-1 py-5 px-4 bg-gradient-to-br from-green-600 to-green-800 rounded-md drop-shadow-sm flex items-center justify-between">
+                    <p className="text-5xl text-white leading-3 tracking-tighter">
+                        <Group color="inherit" fontSize="inherit" />
+                    </p>
+                    <div className="text-right">
+                        <p className="text-4xl font-extrabold text-white tracking-tighter">
+                            {admin.length}
+                        </p>
+                        <p className="text-sm text-white tracking-tighter font-mono">
+                            Jumlah Total Admin
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="my-3 py-2 px-4  rounded-md drop-shadow-md overflow-x-auto w-full bg-white">
+                <div className="flex justify-between items-center py-3 px-3 w-full mx-2">
                     <button
                         onClick={() => setModalForm(true)}
-                        className="flex gap-x-3 py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white"
+                        className="flex items-center leading-3  gap-x-3 text-xs py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white"
                     >
                         <Add />
                         <p>Tambah Admin</p>
                     </button>
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-3 items-center mx-3 w-full">
                         <input
                             onChange={(e) =>
                                 setParams({
@@ -77,11 +126,12 @@ export default function Index(props) {
                             id=""
                             className="disabled:bg-red-100 text-red-500 rounded-md border border-red-200 outline-red-200 focus:border-red-400 focus:outline-red-400 focus:ring-0"
                         >
-                            <option value="1">10</option>
-                            <option value="2">20</option>
-                            <option value="3">30</option>
-                            <option value="4">40</option>
-                            <option value="all">Semua</option>
+                            <option value="">show</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="semua">Semua</option>
                         </select>
                     </div>
                 </div>

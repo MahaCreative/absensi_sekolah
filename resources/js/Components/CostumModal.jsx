@@ -12,13 +12,13 @@ export default function CostumModal({
     return (
         <>
             <Dialog open={open} onClose={onClose}>
-                <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-gray-950/50 backdrop-blur-sm">
+                <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-gray-950/50 backdrop-blur-sm z-[9999]">
                     <div
                         className={`${minWidth} ${
                             open
                                 ? "translate-y-0 opacity-100"
                                 : "translate-y-10 opacity-30"
-                        } transition-all duration-300 ease-linear relative bg-white py-2 px-4 rounded-md drop-shadow-md min-h-[400px] max-h-[95%] overflow-auto`}
+                        } transition-all duration-300 ease-linear relative bg-white py-2 px-4 rounded-md drop-shadow-md min-h-[100px] max-h-[95%] overflow-auto`}
                     >
                         <div className="flex gapx-3 items-center justify-between border-b border-red-700 border-spacing-2 py-2">
                             <p className="capitalize font-medium text-red-600">

@@ -12,7 +12,11 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         $query = Admin::query();
-        $q = $request->q ? $request->q : 10;
+        if ($request->q == 'semua') {
+            $q = Admin::count();
+        } else {
+            $q = $request->q ? $request->q : 10;
+        }
 
         if ($request->q == 'all') {
             $q = Admin::count();

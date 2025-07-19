@@ -1,11 +1,13 @@
 import CostumInput from "@/Components/CostumInput";
 import CostumOption from "@/Components/CostumOption";
 import CostumTextArea from "@/Components/CostumTextArea";
+import useSweetAlertNotification from "@/Hook/useSweetAlertNotification";
 import { useForm } from "@inertiajs/react";
 import { Cancel, Save } from "@mui/icons-material";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Form({ model, onClose }) {
+    const showAlert = useSweetAlertNotification();
     const { data, setData, post, reset, errors } = useForm({
         name: "",
         nis: "",
@@ -28,11 +30,41 @@ export default function Form({ model, onClose }) {
     };
     const submitHandler = (e) => {
         e.preventDefault();
-        post(route("admin.store-guru"));
+        post(route("admin.store-guru"), {
+            onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil menyimpan 1 guru kedalam database"
+                );
+            },
+            onError: (err) => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal menyimpan data guru ke database, silahkan periksa isian anda kembali"
+                );
+            },
+        });
     };
     const updateHandler = (e) => {
         e.preventDefault();
-        post(route("admin.update-guru"));
+        post(route("admin.update-guru"), {
+            onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil mengupdate 1 guru kedalam database"
+                );
+            },
+            onError: (err) => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal mengupdate data guru ke database, silahkan periksa isian anda kembali"
+                );
+            },
+        });
     };
     useEffect(() => {
         setData({

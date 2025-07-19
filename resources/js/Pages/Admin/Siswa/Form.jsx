@@ -2,11 +2,13 @@ import CostumInput from "@/Components/CostumInput";
 import CostumOption from "@/Components/CostumOption";
 import CostumTextArea from "@/Components/CostumTextArea";
 import Table from "@/Components/Table";
+import useSweetAlertNotification from "@/Hook/useSweetAlertNotification";
 import { useForm, usePage } from "@inertiajs/react";
 import { Cancel, Save } from "@mui/icons-material";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Form({ model, onClose }) {
+    const showAlert = useSweetAlertNotification();
     const { kelas } = usePage().props;
     const { data, setData, post, reset, errors } = useForm({
         kelas_id: "",
@@ -36,7 +38,19 @@ export default function Form({ model, onClose }) {
         e.preventDefault();
         post(route("admin.store-siswa"), {
             onSuccess: () => {
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil menyimpan data siswa ke database."
+                );
                 onClose();
+            },
+            onError: () => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal menyimpan data siswa, silahkan periksa kembali isian anda"
+                );
             },
         });
     };
@@ -45,6 +59,18 @@ export default function Form({ model, onClose }) {
         post(route("admin.update-siswa"), {
             onSuccess: () => {
                 onClose();
+                showAlert(
+                    "success",
+                    "Berhasil",
+                    "Berhasil memperbaharui data siswa"
+                );
+            },
+            onError: () => {
+                showAlert(
+                    "error",
+                    "Gagal",
+                    "Gagal memperbaharui data siswa, silahkan periksa kembali isian anda"
+                );
             },
         });
     };

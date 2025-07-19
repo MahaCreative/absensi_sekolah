@@ -10,7 +10,7 @@ export default function CostumOption({
         <>
             <select
                 {...props}
-                className={`${className} disabled:bg-red-100 text-red-500 rounded-md border border-red-200 outline-red-200 focus:border-red-400 focus:outline-red-400 focus:ring-0`}
+                className={`${className} capitalize disabled:bg-red-100 text-red-500 rounded-md border border-red-200 outline-red-200 focus:border-red-400 focus:outline-red-400 focus:ring-0`}
             >
                 {children}
             </select>

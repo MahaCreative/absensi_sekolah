@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('tahun_ajarans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('semester_id')->constrained('semesters')->onDelete('cascade');
-            $table->string('kode_ajar');
             $table->string('tahun_ajaran');
             $table->string('status');
             $table->timestamps();

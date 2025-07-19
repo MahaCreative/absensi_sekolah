@@ -12,7 +12,11 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         $query = Guru::query();
-        $q = $request->q ? $request->q : 10;
+        if ($request->q == 'semua') {
+            $q = Guru::count();
+        } else {
+            $q = $request->q ? $request->q : 10;
+        }
 
         if ($request->q == 'all') {
             $q = Guru::count();
@@ -101,5 +105,22 @@ class GuruController extends Controller
         $user = User::find($guru->user_id);
         $guru->delete();
         $user->delete();
+    }
+
+    public function report(Request $request)
+    {
+        $query = Guru::query();
+        $q = $request->q ? $request->q : 10;
+
+        if ($request->q == 'all') {
+            $q = Guru::count();
+        }
+        if ($request->search) {
+            $query->where('nis', 'like', '%' . $request->search . '%')
+                ->orWhere('nama_lengkap', 'like', '%' . $request->search . '%')
+            ;
+        }
+        $guru = $query->latest()->get();
+        return inertia('Admin/Guru/Report', compact('guru'));
     }
 }

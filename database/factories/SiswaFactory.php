@@ -17,10 +17,10 @@ class SiswaFactory extends Factory
      */
     public function definition(): array
     {
-        $kelas = Kelas::get()->pluck('id');
+
         return [
-            "kelas_id" => fake()->randomElement($kelas),
-            'nis' => fake()->numerify('803###'),
+            'kelas_id' => null,
+            'nis' => fake()->unique()->numerify('803###'),
             "nama_lengkap" => fake()->name(),
             "alamat" => fake()->address(),
             "telephone" => fake()->phoneNumber(),
