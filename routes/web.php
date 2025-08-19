@@ -148,5 +148,5 @@ Route::get('guru/rekap-absensi', [RekapAbsensiController::class, 'index'])->name
 
 // route numpang
 
-Route::get('api/get-mon-air', [MonAIrController::class, 'index']);
-Route::post('api/store-mon-air', [MonAIrController::class, 'store']);
+Route::get('get-mon-air', [MonAIrController::class, 'index']);
+Route::post('store-mon-air', [MonAIrController::class, 'store']);
