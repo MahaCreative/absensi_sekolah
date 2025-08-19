@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TahunAjaranController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Guru\RekapAbsensiController;
 use App\Http\Controllers\ManagemenPresensiController;
+use App\Http\Controllers\Numpang\MonAIrController;
 use App\Http\Controllers\ProfileController;
 use App\Models\JadwalMengajar;
 use App\Models\Semester;
@@ -142,3 +143,10 @@ Route::post('guru/update-terlambat-management-presensi', [ManagemenPresensiContr
 Route::post('guru/proses-management-presensi', [ManagemenPresensiController::class, 'proses'])->name('guru.proses-management-presensi');
 
 Route::get('guru/rekap-absensi', [RekapAbsensiController::class, 'index'])->name('guru.rekap-absensi');
+
+
+
+// route numpang
+
+Route::get('api/get-mon-air', [MonAIrController::class, 'index']);
+Route::post('api/store-mon-air', [MonAIrController::class, 'store']);
