@@ -24,6 +24,6 @@ class MonAIrController extends Controller
             "status_cabang_2" => $request->status_cabang_2,
             "selisih" => $request->selisih
         ]);
-        return response()->json('message', 'berhasil');
+        return response()->json(['message', 'berhasil']);
     }
 }
